@@ -66,9 +66,11 @@ function createSearchCard(movie) {
 // Renderiza os Swipers da Home
 async function renderHome() {
   try {
-    const [popular, action] = await Promise.all([
+    const [popular, action, topRated, upcoming] = await Promise.all([
       API.getPopular(),
       API.getAction(),
+      API.getTopRated(),
+      API.getUpcoming(),
     ]);
 
     document.getElementById("row-popular").innerHTML = popular
@@ -77,35 +79,54 @@ async function renderHome() {
     document.getElementById("row-action").innerHTML = action
       .map(createMovieCard)
       .join("");
+    document.getElementById("row-toprated").innerHTML = topRated
+      .map(createMovieCard)
+      .join("");
+    document.getElementById("row-upcoming").innerHTML = upcoming
+      .map(createMovieCard)
+      .join("");
 
-    // Inicializa os Swipers
-    new Swiper(".swiper-popular", {
+    const swiperConfig = {
       slidesPerView: 2,
       spaceBetween: 16,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        640: { slidesPerView: 3 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 5 },
+        1280: { slidesPerView: 6 },
+      },
+    };
+
+    new Swiper(".swiper-popular", {
+      ...swiperConfig,
       navigation: {
         nextEl: ".swiper-popular .swiper-button-next",
         prevEl: ".swiper-popular .swiper-button-prev",
       },
-      breakpoints: {
-        640: { slidesPerView: 3 },
-        768: { slidesPerView: 4 },
-        1024: { slidesPerView: 5 },
-        1280: { slidesPerView: 6 },
-      },
     });
-
     new Swiper(".swiper-action", {
-      slidesPerView: 2,
-      spaceBetween: 16,
+      ...swiperConfig,
       navigation: {
         nextEl: ".swiper-action .swiper-button-next",
         prevEl: ".swiper-action .swiper-button-prev",
       },
-      breakpoints: {
-        640: { slidesPerView: 3 },
-        768: { slidesPerView: 4 },
-        1024: { slidesPerView: 5 },
-        1280: { slidesPerView: 6 },
+    });
+    new Swiper(".swiper-toprated", {
+      ...swiperConfig,
+      navigation: {
+        nextEl: ".swiper-toprated .swiper-button-next",
+        prevEl: ".swiper-toprated .swiper-button-prev",
+      },
+    });
+    new Swiper(".swiper-upcoming", {
+      ...swiperConfig,
+      navigation: {
+        nextEl: ".swiper-upcoming .swiper-button-next",
+        prevEl: ".swiper-upcoming .swiper-button-prev",
       },
     });
 
@@ -114,7 +135,6 @@ async function renderHome() {
     console.error("Erro ao carregar filmes:", error);
   }
 }
-
 // Renderiza a página de detalhes
 async function renderDetails(movieId) {
   try {

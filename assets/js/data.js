@@ -106,7 +106,23 @@ const API = {
 
     return trailer ? trailer.key : null;
   },
+  // Busca filmes mais bem avaliados
+  async getTopRated() {
+    const res = await fetch(
+      `${CONFIG.TMDB_BASE_URL}/movie/top_rated?api_key=${CONFIG.TMDB_API_KEY}&language=${CONFIG.TMDB_LANGUAGE}&page=1`,
+    );
+    const data = await res.json();
+    return data.results;
+  },
 
+  // Busca lançamentos
+  async getUpcoming() {
+    const res = await fetch(
+      `${CONFIG.TMDB_BASE_URL}/movie/upcoming?api_key=${CONFIG.TMDB_API_KEY}&language=${CONFIG.TMDB_LANGUAGE}&page=1`,
+    );
+    const data = await res.json();
+    return data.results;
+  },
   // Busca filme em destaque para o Hero
   async getNowPlaying() {
     const res = await fetch(
