@@ -2,6 +2,7 @@
 // LUMORA - Navigation Engine
 // Gerencia a navegação entre as views
 // ==========================================
+let currentMovieId = null;
 
 function navigateTo(viewId) {
   // Esconde todas as views
@@ -27,6 +28,7 @@ function navigateTo(viewId) {
 }
 
 function loadDetails(movieId) {
+  currentMovieId = movieId;
   navigateTo("details");
   renderDetails(movieId);
 }

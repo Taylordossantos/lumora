@@ -81,6 +81,32 @@ const API = {
     return `${h}h ${m}min`;
   },
 
+  // Busca trailer do filme no YouTube via TMDB
+  async getTrailer(movieId) {
+    const res = await fetch(
+      `${CONFIG.TMDB_BASE_URL}/movie/${movieId}/videos?api_key=${CONFIG.TMDB_API_KEY}&language=${CONFIG.TMDB_LANGUAGE}`,
+    );
+    const data = await res.json();
+
+    // Tenta achar trailer em português primeiro
+    let trailer = data.results.find(
+      (v) => v.type === "Trailer" && v.site === "YouTube",
+    );
+
+    // Se não achar, busca em inglês
+    if (!trailer) {
+      const resEn = await fetch(
+        `${CONFIG.TMDB_BASE_URL}/movie/${movieId}/videos?api_key=${CONFIG.TMDB_API_KEY}&language=en-US`,
+      );
+      const dataEn = await resEn.json();
+      trailer = dataEn.results.find(
+        (v) => v.type === "Trailer" && v.site === "YouTube",
+      );
+    }
+
+    return trailer ? trailer.key : null;
+  },
+
   // Busca filme em destaque para o Hero
   async getNowPlaying() {
     const res = await fetch(
