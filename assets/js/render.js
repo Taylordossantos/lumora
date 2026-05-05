@@ -164,3 +164,27 @@ async function renderDetails(movieId) {
     console.error("Erro ao carregar detalhes:", error);
   }
 }
+// Renderiza o Hero com filme real do TMDB
+async function renderHero() {
+  try {
+    const movie = await API.getNowPlaying();
+    if (!movie) return;
+
+    // Atualiza o backdrop
+    const heroSection = document.querySelector("#view-home section");
+    const heroImg = heroSection.querySelector("img");
+    heroImg.src = API.getBackdropUrl(movie.backdrop_path);
+    heroImg.alt = movie.title;
+
+    // Atualiza os textos
+    heroSection.querySelector("h1").innerText = movie.title;
+    heroSection.querySelector("p").innerText = movie.overview;
+
+    // Atualiza o botão Assistir
+    heroSection
+      .querySelector("button")
+      .setAttribute("onclick", `loadDetails(${movie.id})`);
+  } catch (error) {
+    console.error("Erro ao carregar hero:", error);
+  }
+}

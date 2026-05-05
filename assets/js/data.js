@@ -80,6 +80,16 @@ const API = {
     const m = minutes % 60;
     return `${h}h ${m}min`;
   },
+
+  // Busca filme em destaque para o Hero
+  async getNowPlaying() {
+    const res = await fetch(
+      `${CONFIG.TMDB_BASE_URL}/movie/now_playing?api_key=${CONFIG.TMDB_API_KEY}&language=${CONFIG.TMDB_LANGUAGE}&page=1`,
+    );
+    const data = await res.json();
+    const top5 = data.results.slice(0, 5);
+    return top5[Math.floor(Math.random() * top5.length)];
+  },
 };
 
 // Mapa de gêneros TMDB para português

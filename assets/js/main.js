@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Inicializa ícones
   lucide.createIcons();
 
-  // Renderiza a home com dados do TMDB
-  await renderHome();
+  // Renderiza hero, popular e action em paralelo
+  await Promise.all([renderHero(), renderHome()]);
 
   // Navega para a home
   navigateTo("home");
