@@ -6,7 +6,7 @@ A fictional streaming platform built with HTML, CSS and Vanilla JavaScript, inte
 
 ## 🚀 Live Demo
 
-> Coming soon — deploying on Vercel
+> [lumora-kappa-peach.vercel.app](https://lumora-kappa-peach.vercel.app/)
 
 ## ✨ Features
 
